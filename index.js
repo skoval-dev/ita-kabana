@@ -1,9 +1,13 @@
 "use strict";
 
-const Koa = require("koa");
-const app = new Koa();
 const port = process.env.PORT || 3000;
+const Koa = require("koa");
+const router = require("./http/router");
 
+const app = new Koa();
+
+app.use(router.middleware());
+app.use(router.allowedMethods())
 
 
 app.listen(port, (err) => {
