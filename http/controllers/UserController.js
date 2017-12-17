@@ -17,9 +17,15 @@ class UserController {
     }
 
     // POST /user
-    createUser(ctx, next) {
+    async createUser(ctx, next) {
+        const userData = ctx.request.body;
+        const user = new User(userData);
+        const doc = await user.save();
+
         console.log("createUser");
         ctx.status = 200;
+        ctx.body = doc;
+
         return next();
     }
 

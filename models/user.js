@@ -5,6 +5,8 @@ const schema = mongoose.Schema({
     email: String
 });
 
+schema.set("toJSON", {versionKey: false});
+
 const User = mongoose.model("User", schema);
 
 module.exports = User;
