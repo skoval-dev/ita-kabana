@@ -1,7 +1,7 @@
 "use strict";
 const Router = require("koa-router");
 const router = new Router();
-const {UserController} = require("./controllers");
+const {UserController, BoardController, ListController, TaskController} = require("./controllers");
 
 const notImplemented = (ctx, next) => {
     ctx.status = 501;
@@ -14,6 +14,9 @@ const notImplemented = (ctx, next) => {
 };
 
 const userController = new UserController();
+const boardController = new BoardController();
+const listController = new ListController();
+const taskController = new TaskController();
 
 router.get("/users", userController.getUserList);
 router.get("/user/:id", userController.getUser);
@@ -22,23 +25,23 @@ router.put("/user/:id", userController.updateUser);
 router.delete("/user/:id", userController.deleteUser);
 
 
-router.get("/boards", notImplemented);
-router.get("/board/:id", notImplemented);
-router.post("/board", notImplemented);
-router.put("/board/:id", notImplemented);
-router.delete("/board/:id", notImplemented);
+router.get("/boards", boardController.getBoardList);
+router.get("/board/:id", boardController.getBoard);
+router.post("/board", boardController.createBoard);
+router.put("/board/:id", boardController.updateBoard);
+router.delete("/board/:id", boardController.deleteBoard);
 
-router.get("/lists", notImplemented);
-router.get("/list/:id", notImplemented);
-router.post("/list", notImplemented);
-router.put("/list/:id", notImplemented);
-router.delete("/list/:id", notImplemented);
+router.get("/lists", listController.getListList);
+router.get("/list/:id", listController.getList);
+router.post("/list", listController.createList);
+router.put("/list/:id", listController.updateList);
+router.delete("/list/:id", listController.deleteList);
 
-router.get("/tasks", notImplemented);
-router.get("/task/:id", notImplemented);
-router.post("/task", notImplemented);
-router.put("/task/:id", notImplemented);
-router.delete("/task/:id", notImplemented);
+router.get("/tasks", taskController.getTask);
+router.get("/task/:id", taskController.getTaskList);
+router.post("/task", taskController.createTask);
+router.put("/task/:id", taskController.updateTask);
+router.delete("/task/:id", taskController.deleteTask);
 
 router.get("/attachment/:id", notImplemented);
 router.post("/attachment", notImplemented);
