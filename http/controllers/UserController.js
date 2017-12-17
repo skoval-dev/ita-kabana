@@ -1,18 +1,25 @@
 "use strict";
 const {User} = require("./../../models");
+const ObjectId = require("mongoose").Types.ObjectId;
 class UserController {
 
     // GET /users
-    getUserList(ctx, next) {
+    async getUserList(ctx, next) {
+        const docs = await User.find();
         console.log("getUserList");
         ctx.status = 200;
+        ctx.body = docs;
         return next();
     }
 
     // GET /user/:id
-    getUser(ctx, next) {
+    async getUser(ctx, next) {
+        const {id} = ctx.params;
+        const doc = await User.findById(id);
+
         console.log("getUser");
         ctx.status = 200;
+        ctx.body = doc;
         return next();
     }
 
@@ -30,16 +37,27 @@ class UserController {
     }
 
     // PUT /user/:id
-    updateUser(ctx, next) {
+    async updateUser(ctx, next) {
+        const {id} = ctx.params;
+        const userData = ctx.request.body;
+        ctx.body = await User.findByIdAndUpdate(id, userData, {new: true});
         console.log("updateUser");
         ctx.status = 200;
         return next();
     }
 
     // DELETE /user/:id
-    deleteUser(ctx, next) {
+    async deleteUser(ctx, next) {
+        const {id} = ctx.params;
+        const {deletedCount} = await User.deleteOne({_id: ObjectId(id)});
+
+        if(deletedCount === 1){
+            ctx.status = 200;
+        } else {
+            ctx.status = 204;
+        }
+
         console.log("deleteUser");
-        ctx.status = 200;
         return next();
     }
 }
