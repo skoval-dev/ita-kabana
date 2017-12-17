@@ -1,8 +1,7 @@
 "use strict";
-
 const Router = require("koa-router");
-
 const router = new Router();
+const {UserController} = require("./controllers");
 
 const notImplemented = (ctx, next) => {
     ctx.status = 501;
@@ -14,11 +13,13 @@ const notImplemented = (ctx, next) => {
     return next();
 };
 
-router.get("/users", notImplemented);
-router.get("/user/:id", notImplemented);
-router.post("/user", notImplemented);
-router.put("/user/:id", notImplemented);
-router.delete("/user/:id", notImplemented);
+const userController = new UserController();
+
+router.get("/users", userController.getUserList);
+router.get("/user/:id", userController.getUser);
+router.post("/user", userController.createUser);
+router.put("/user/:id", userController.updateUser);
+router.delete("/user/:id", userController.deleteUser);
 
 
 router.get("/boards", notImplemented);
